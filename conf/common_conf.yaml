@@ -1,0 +1,5 @@
+defaults:
+  - model: random_forest_cls
+  - data: data_conf
+  - data_work: data_work_params
+  - general: general_conf

@@ -1,0 +1,6 @@
+# @package _group_
+reports_path: "reports"
+models_path: "models"
+random_seed: 100500
+score_func:
+  _target_: sklearn.metrics.mean_squared_error

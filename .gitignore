@@ -1,0 +1,9 @@
+__pycache__/
+/.idea/
+/latest_trained*/
+/logs*/
+/predictions*/
+/reports*/
+heart_dis_env
+*.log
+*.h5

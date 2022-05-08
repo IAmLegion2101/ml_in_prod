@@ -1,0 +1,4 @@
+# @package _group_
+dataset_fname: heart_cleveland_upload.csv
+dataset_path: data
+

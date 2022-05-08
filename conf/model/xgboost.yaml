@@ -1,0 +1,4 @@
+# @package _group_
+_target_: xgboost.sklearn.XGBClassifier
+booster: gblinear
+verbosity: 0
