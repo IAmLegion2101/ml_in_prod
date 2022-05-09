@@ -7,16 +7,14 @@ import sys
 
 import pandas as pd
 from sklearn.base import BaseEstimator
-import numpy as np
 from datetime import datetime
-from argparse import ArgumentParser, ArgumentDefaultsHelpFormatter, FileType, ArgumentTypeError, SUPPRESS
-from data import get_target_data
-from utils.utils import set_env_variable
+from argparse import ArgumentParser, ArgumentDefaultsHelpFormatter, SUPPRESS
+from src.data import get_target_data
 
 ROOT_PROJECT_DIR = os.getenv('ROOTDIR')
 logging.config.fileConfig(f'{ROOT_PROJECT_DIR}/conf/logging.conf')
 logger = logging.getLogger('heart_dis_classifier')
-DEFAULT_MODEL_PATH = 'latest_trained/last_trained_model.pickle'
+DEFAULT_MODEL_PATH = 'last_trained/last_trained_model.pickle'
 DEFAULT_RES_PATH = 'predictions'
 
 
@@ -66,8 +64,7 @@ def predict_pipeline(model_path: str, data_path: str, target: str, res_path: str
     Main function
     :return:
     """
-    set_env_variable()
-    project_root = os.environ["ROOT_PROJECT_DIR"]
+    project_root = os.environ["ROOTDIR"]
     if model_path == DEFAULT_MODEL_PATH:
         logger.info("Used last trained model")
         model_path = os.path.join(project_root, model_path)
@@ -101,7 +98,6 @@ def predict_pipeline(model_path: str, data_path: str, target: str, res_path: str
         res_path = os.path.join(res_path, res_fname)
     preds.to_csv(res_path)
     logger.info(f'result saved')
-
 
 
 if __name__ == "__main__":

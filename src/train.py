@@ -10,10 +10,9 @@ from sklearn.base import BaseEstimator
 from sklearn.metrics import classification_report
 
 from src.config import Config
-from utils.utils import set_env_variable
-from data import get_splitted_data, get_target_data
+from src.data import get_splitted_data, get_target_data
 
-from predict import predict
+from src.predict import predict
 
 
 ROOT_PROJECT_DIR = os.getenv('ROOTDIR')
@@ -61,7 +60,7 @@ def create_report(model: BaseEstimator,  config_params: Config, project_root: st
         os.mkdir(out_dir)
     report_folder = f'report_{datetime.now().strftime("%d_%m_%Y_%H_%M_%S")}'
     report_path = os.path.join(out_dir, report_folder)
-    last_model_path = os.path.join(project_root, 'latest_trained')
+    last_model_path = os.path.join(project_root, config_params.general.models_path)
     os.mkdir(report_path)
     config_file = os.path.join(report_path, 'general_config.yaml')
     model_dump = os.path.join(report_path, 'model.pickle')
@@ -84,8 +83,7 @@ def create_report(model: BaseEstimator,  config_params: Config, project_root: st
 
 @hydra.main(config_path='../conf', config_name='common_conf')
 def train(config_params: Config):
-    set_env_variable()
-    project_root = os.environ["ROOT_PROJECT_DIR"]
+    project_root = os.environ["ROOTDIR"]
     logger.info(f'========== Start model train ==========')
     logger.info("Detailed info:")
     logger.info(f'---------------------------------------')

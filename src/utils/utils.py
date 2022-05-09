@@ -1,49 +1,39 @@
 import os
+from argparse import ArgumentParser, ArgumentDefaultsHelpFormatter, SUPPRESS
+import requests
+
+DEFAULT_PATH = os.path.join(os.getenv('ROOTDIR'), '/data/heart_cleveland_upload.csv')
 
 
-def set_env_variable():
-    utils_dir = os.path.dirname(os.path.abspath(__file__))
-    root_project_dir = os.path.dirname(os.path.dirname(utils_dir))
-    os.environ["ROOT_PROJECT_DIR"] = root_project_dir
+def download_from_kaggle(link, path):
+    response = requests.get(link)
+    with open(path, 'w') as f:
+        f.write(response.text)
 
 
-def prepare_work_env():
-    """
-    func for setting workspace
-    :return:
-    """
-    set_env_variable()
-    root_project_dir = os.environ["ROOT_PROJECT_DIR"]
-    os.environ["PATH"] += root_project_dir
-    print("Creating logs folder...")
-    logs_dir = os.path.join(root_project_dir, 'logs')
-    if not os.path.exists(logs_dir):
-        os.mkdir(logs_dir)
-        print("Done")
-    else:
-        print("logs folder already exists!")
-    print("Creating reports folder...")
-    reports_dir = os.path.join(root_project_dir, 'reports')
-    if not os.path.exists(reports_dir):
-        os.mkdir(reports_dir)
-        print("Done")
-    else:
-        print("reports folder already exists!")
-    print("Creating latest trained model folder...")
-    reports_dir = os.path.join(root_project_dir, 'latest_trained')
-    if not os.path.exists(reports_dir):
-        os.mkdir(reports_dir)
-        print("Done")
-    else:
-        print("latest trained model folder already exists!")
-    print("Creating result predictions folder...")
-    preds_dir = os.path.join(root_project_dir, 'predictions')
-    if not os.path.exists(preds_dir):
-        os.mkdir(preds_dir)
-        print("Done")
-    else:
-        print("result predictions folder already exists!")
+def callback_run(arguments):
+    download_from_kaggle(arguments.link, arguments.path_to_load)
+
+
+def setup_parser(parser):
+    parser.add_argument('-h', '--help', action='help', default=SUPPRESS,
+                        help='Show help info')
+    parser.add_argument('-l', '--link',
+                        help='link for download data',
+                        required=True)
+    parser.add_argument('-p', '--path_to_load',
+                        help='path to data',
+                        default=DEFAULT_PATH)
+    parser.set_defaults(callback=callback_run)
 
 
 if __name__ == "__main__":
-    prepare_work_env()
+    parser = ArgumentParser(
+        prog="Download data",
+        description="Script for downloading data",
+        formatter_class=ArgumentDefaultsHelpFormatter,
+        add_help=False
+    )
+    setup_parser(parser)
+    arguments = parser.parse_args()
+    arguments.callback(arguments)

@@ -2,11 +2,6 @@
 
 ## Разработать проект для классификации болзней сердца
 
-## Данные
-Использован следующий источник данных:
-
-    https://www.kaggle.com/datasets/cherngs/heart-disease-cleveland-uci
-
 ## Подготовка рабочей среды
 
 Необходимо настроить виртуальную среду. Для этого нужно выполнить следующие команды:
@@ -24,6 +19,16 @@
 * latest_trained
 * predictions
 * reports
+
+## Данные
+
+Использован следующий источник данных:
+
+    https://www.kaggle.com/datasets/cherngs/heart-disease-cleveland-uci
+
+Их можно скачать, воспользовавшись командой:
+
+    python src\utils\utils.py -l https://raw.githubusercontent.com/IAmLegion2101/data_for_ml_in_prod/master/heart_cleveland_upload.csv
 
 ## Обучение модели
 
@@ -50,10 +55,15 @@
 * -r, --res_path - путь до места хранения результата;
 * -t, --target - колонка с предсказываемыми значениями (опционально)
 
+## Тестирование
+
+Для выполнения тестирования необходимо перейти в папку проекта и выполнить команду:
+
+    pytest
+
 ## Структура проекта:
     D:.
     │   .gitignore
-    │   img.png
     │   prepare_work_env.bat
     │   README.md
     │   requirements.txt
@@ -79,32 +89,39 @@
     ├───data
     │       heart_cleveland_upload.csv
     │
-    ├───latest_trained
+    ├───last_trained
     ├───logs
     ├───notebooks
     │       hw_1_baseline.ipynb
     │
     ├───predictions
     ├───reports
-    └───src
-        │   logging.conf
-        │   predict.py
-        │   prepare_to_run.py
-        │   train.py
+    ├───src
+    │   │   logging.conf
+    │   │   predict.py
+    │   │   prepare_to_run.py
+    │   │   train.py
+    │   │
+    │   ├───config
+    │   │       conf.py
+    │   │       data_conf.py
+    │   │       general_conf.py
+    │   │       model_conf.py
+    │   │       __init__.py
+    │   │
+    │   ├───data
+    │   │       prepare_data.py
+    │   │       __init__.py
+    │   │
+    │   └───utils
+    │           utils.py
+    │
+    └───tests
+        ├───general
+        │       test_general.py
         │
-        ├───config
-        │       conf.py
-        │       data_conf.py
-        │       general_conf.py
-        │       model_conf.py
-        │       __init__.py
-        │
-        ├───data
-        │       prepare_data.py
-        │       __init__.py
-        │
-        └───utils
-                utils.py
+        └───models
+                test_model.py
 
 
 
