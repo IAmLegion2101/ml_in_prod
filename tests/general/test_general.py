@@ -2,7 +2,6 @@ import pytest
 import os
 
 
-
 def test_correct_env_path():
     root_dir = os.getenv('ROOTDIR')
     assert root_dir is not None

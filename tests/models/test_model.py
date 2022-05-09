@@ -1,4 +1,3 @@
-import os
 import pandas as pd
 import pytest
 from hydra.experimental import initialize, compose
@@ -9,20 +8,11 @@ from src.config import Config
 import os
 import pickle
 from pathlib import Path
-from time import sleep
-from typing import Union
-import sklearn.base
-from tqdm import tqdm
 
 PROJECT_ROOT = os.getenv('ROOTDIR')
 if PROJECT_ROOT is None:
     PROJECT_ROOT = Path('.')
 PROJECT_ROOT = Path(PROJECT_ROOT)
-
-
-@pytest.fixture
-def tests_sandbox_path() -> Path:
-    return Path('test_env')
 
 
 @pytest.fixture
@@ -58,7 +48,7 @@ def trained_model(conf: Config):
     return model
 
 
-def test_models(trained_model, dataset, conf: Config):
+def test_models(trained_model, dataset, conf):
     assert (Path(conf.general.models_path) / 'last_trained_model.pickle').exists()
     assert Path(conf.general.reports_path).exists()
     preds = predict(trained_model, dataset)
